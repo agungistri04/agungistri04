@@ -1,0 +1,72 @@
+<html>
+    <head>
+    </head>
+        <body style="margin-top: 4%; font-family: 'Times New Roman', Times, serif; background-color: navy; color: ghostwhite;">
+            <center>
+                <h1 style="background-color: rgb(0, 0, 0);">SELAMAT DATANG di RENTAL MOBIL BALI</h1>
+                <img src="Mobi rental.gif" alt="Rental Mobil" width="400px" height="300px">
+            </center>
+              <div id="list"></div>
+        </body>
+
+        <script>
+            const electron = require("electron");
+            const {
+                ipcRenderer
+            } = electron;
+            ipcRenderer.send("appointment:request:today");
+
+            ipcRenderer.on("appointment:request:today", (event, appointment)=> {
+                const listDiv = document.getElementById("list");
+                appointment.forEach(appointment => {
+                    const appointmentDiv = document.createElement("div");
+                    const name1Paragraph = document.createElement("p");
+                    name1Paragraph.innerHTML = `Nama Pelanggan: ${appointment.name1}`;
+
+                    const number1Paragraph = document.createElement("p");
+                    number1Paragraph.innerHTML = `Nomor HP: ${appointment.number1}`;
+
+                    const number2Paragraph = document.createElement("p");
+                    number2Paragraph.innerHTML = `No.KTP: ${appointment.number2}`;
+
+                    const date1Paragraph = document.createElement("p");
+                    date1Paragraph.innerHTML = `Tanggal Pinjam: ${appointment.date1}`;
+
+                    const hourParagraph = document.createElement("p");
+                    hourParagraph.innerHTML = `Waktu Pinjam: ${appointment.hour}`;
+
+                    const name2Paragraph = document.createElement("p");
+                    name2Paragraph.innerHTML = `Pilih Mobil: ${appointment.name2}`;
+
+                    const date2Paragraph = document.createElement("p");
+                    date2Paragraph.innerHTML = `Tanggal Pengembalian: ${appointment.date2}`;
+
+                    const doneParagraph = document.createElement("p");
+                    doneParagraph.innerHTML = `Done: ${appointment.done ? "Yes" : "No"}`;
+
+                    const doneButton = document.createElement("button");
+                    doneButton.innerHTML ="Done";
+                    doneButton.disabled = appointment.done ? true : false;
+                    doneButton.onclick =() => done(appointment.id);
+
+                    const hr = document.createElement("hr");
+
+                    appointmentDiv.appendChild(name1Paragraph);
+                    appointmentDiv.appendChild(number1Paragraph);
+                    appointmentDiv.appendChild(number2Paragraph);
+                    appointmentDiv.appendChild(date1Paragraph);
+                    appointmentDiv.appendChild(hourParagraph);
+                    appointmentDiv.appendChild(name2Paragraph);
+                    appointmentDiv.appendChild(date2Paragraph);
+                    appointmentDiv.appendChild(doneParagraph);
+                    appointmentDiv.appendChild(doneButton);
+                    appointmentDiv.appendChild(hr);
+
+                    listDiv.append(appointmentDiv);
+                });
+            });
+            const done = id => {
+                ipcRenderer.send("appointment:done", id);
+            };
+        </script>
+    </html>
