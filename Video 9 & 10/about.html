@@ -1,0 +1,20 @@
+<html>
+<head>
+</head>
+<body>
+    <img src="gambar.JPG" width="150" height="100">
+    <h1><center><b>BIODATA</b></center></h1>
+    <center>Nama : Anak Agung Istri Agung Dwi Arismayanti</center>
+    <center>NIM  : 1801010037</center>
+    <center>Prodi: Sistem Informasi</center>
+    <center>TTL  : Badung 04 April 2000</center>
+    <center>Alamat: Petang Badung</center>
+</body>
+<script>
+    const electron =request("electron");
+    const {
+        ipRenderer
+    } = electron;
+    ipRenderer.send("appointment:about");
+</script>
+</html>
