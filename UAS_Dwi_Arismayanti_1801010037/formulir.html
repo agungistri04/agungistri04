@@ -1,0 +1,63 @@
+    <html>
+    <head>
+    </head>
+        <body style="margin-top: 4%; font-family: 'Times New Roman', Times, serif; background-color: rgb(0, 94, 216); color: ghostwhite;">
+            <center>
+                <h1 style="background-color: rgb(12, 12, 12);">Formulir Peminjaman dan Pengembalian Mobil</h1>
+                <img src="Mobi rental.gif" alt="Rental Mobil" width="400px" height="300px">
+            </center>
+          
+            <form id="form">
+                <label for="name1">Nama Pelanggan:</label><br />
+                <input type="text" name="name1" required />
+                <br /><br />
+                <label for="number1">Nomor HP:</label><br />
+                <input type="number" name="number1" required />
+                <br /><br />
+                <label for="number2">No.KTP:</label><br />
+                <input type="number" name="number2" required />
+                <br /><br />
+                <label for="date1">Tanggal Pinjam:</label><br />
+                <input type="date" name="date1" required />
+                <br /><br />
+                <label for="hour">Waktu Pinjam:</label><br />
+                <input type="hour" name="hour" required />
+                <br /><br />
+                <select name="Mobil"> 
+                    <option value >--Pilih Mobil--</option>
+                    <option value="Honda Jazz">Honda Jazz</option>
+                    <option value="Toyota Avanza">Toyota Avanza</option>
+                    <option value="Kijang Innova">Kijang Innova</option>
+                    <option value="Suzuki APV">Suzuki APV</option>
+                    <option value="Isuzu Elf">Isuzu Elf</option>
+                </select>
+                <br /><br />
+                <label for="date2">Tanggal Pengembalian</label><br />
+                <input type="date" name="date2" required />
+                <br /><br />
+                <input type="submit" value="Setuju" />
+             </form>
+
+             <script>
+                 const electron = require("electron");
+                 const {
+                     ipcRenderer
+                 } = electron;
+
+                 const form = document.getElementById("form");
+                 const elements = {};
+
+                 form.addEventListener("submit", event => {
+                     event.preventDefault();
+
+                     for (let i = 0; i < form.elements.length; i++) {
+                         if (form.elements[i].type !=="submit")
+                             elements[form.elements[i].name] = form.elements[i].value;
+                     }
+
+                     ipcRenderer.send("appointment:formulir", elements);
+                 });
+             </script>
+        </body>
+
+    </html>
